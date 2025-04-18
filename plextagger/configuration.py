@@ -38,6 +38,8 @@ class Config:
         self.log_template = os.getenv('LOG_TEMPLATE', '[%(asctime)s] [%(levelname)s] %(name)s: %(message)s')
         self.db_path = os.path.abspath(os.getenv('DB_PATH', '.')).rstrip('/')
 
+        self.tmdb_api_key = os.environ['TMDB_API_KEY']
+
 
 configuration = Config()
 
