@@ -5,7 +5,6 @@ from .models import TMDBData
 from .configuration import configuration
 
 base_url = "https://api.themoviedb.org/3"
-# base_url = "https://api.themoviedb.org/3/authentication"
 
 movie_url = base_url + "/movie"
 show_url = base_url + "/tv"
@@ -18,7 +17,7 @@ headers = {
 _logger = logging.getLogger(__name__)
 
 def _sanitize(s: str) -> str:
-    s = s.lower().replace(',', '_')
+    s = s.lower().replace(',', '_').replace(':', '_')
     return re.sub(r'\s+', '-', s)
 
 def get_cached_show_details(id: str, session: Session) -> TMDBData:
@@ -45,15 +44,9 @@ def get_cached_details(media_type: str, id: str, session: Session) -> TMDBData:
             return ""
         return ','.join(sorted(set(_sanitize(selector(i)) for i in section)))
 
-    keywords = result.get("keywords", None)
-    if keywords is None:
-        keywords = ""
-    else:
-        keywords = keywords.get("keywords", None)
-        if keywords is None:
-            keywords = ""
-        else:
-            keywords = ','.join(sorted(set(_sanitize(i['name']) for i in keywords)))
+    keywords = result.get("keywords", {})
+    keywords = keywords.get("keywords", []) + keywords.get("results", [])
+    keywords = ','.join(sorted(set(_sanitize(i['name']) for i in keywords)))
 
     data = TMDBData(
         id=id,

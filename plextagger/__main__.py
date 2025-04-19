@@ -7,6 +7,7 @@ from .plex_operations import clean_old_runs, ingest_media
 from .storage import create_session, init_db, engine
 from .configuration import configuration
 from .tmdb_operations import get_cached_movie_details, get_cached_show_details
+from . import tvmaze_operations as tvmaze
 import logging
 import datetime
 
@@ -60,7 +61,6 @@ if __name__ == "__main__":
     # update_plex_cache()
     # _logger.info(f"Plex cache update complete.")
 
-
     session = create_session()
     batch_size = 100
     offset = 0
@@ -71,13 +71,15 @@ if __name__ == "__main__":
             .all()
 
         for item in batch:
-            if item.tmdb is None:
-                continue
+            if item.tmdb is not None:
+                if item.type == "show":
+                    details = get_cached_show_details(item.tmdb, session)
+                elif item.type == "movie":
+                    details = get_cached_movie_details(item.tmdb, session)
+            if item.tvdb is not None:
+                if item.type == "show":
+                    details = tvmaze.get_cached_show_details(item.tvdb, session)
 
-            if item.type == "show":
-                details = get_cached_show_details(item.tmdb, session)
-            elif item.type == "movie":
-                details = get_cached_movie_details(item.tmdb, session)
 
         session.commit()
     except Exception as e:

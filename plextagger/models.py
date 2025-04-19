@@ -29,3 +29,11 @@ class TMDBData(Base):
     networks = Column(String)
     production_countries = Column(String)
 
+class TVMazeData(Base):
+    __tablename__ = 'tvmaze_media'
+    id: Mapped[str] = mapped_column(primary_key=True)
+    tvdb: Mapped[str] = mapped_column(unique=True, index=True)
+    type: Mapped[str | None] = mapped_column()
+    genres: Mapped[str] = mapped_column()
+    network: Mapped[str | None] = mapped_column()
+    web_channel: Mapped[str | None] = mapped_column()
