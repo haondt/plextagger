@@ -40,7 +40,7 @@ class TVMazeData(Base):
 class FailedMatch(Base):
     __tablename__ = 'failed_matches'
     id: Mapped[int] = mapped_column(primary_key=True)
-    plex_id: Mapped[int] = mapped_column(ForeignKey('media.id'), index=True)
+    plex_id: Mapped[int] = mapped_column(index=True)
     type: Mapped[str] = mapped_column(index=True)
     url: Mapped[str] = mapped_column()
     __table_args__ = (
