@@ -13,26 +13,20 @@ def ingest_media(plex, session, run_id):
         if section.type not in ['movie', 'show']:
             continue
         for item in section.search(limit=configuration.section_batch_size, filters={"genre!": "PT__processed"}):
-            # for item in section.recentlyAdded():
-            # for item in section.all():
-            # item.reload()
-            try:
-                guids = {g.id.split('://')[0]: g.id.split('://')[1] for g in item.guids}
-                tags = ','.join(sorted([i.tag for i in item.genres]))
-                media = Media(
-                    id=item.ratingKey,
-                    name=item.title,
-                    type=item.type,
-                    tmdb=guids.get('tmdb'),
-                    tvdb=guids.get('tvdb'),
-                    imdb=guids.get('imdb'),
-                    tags=tags,
-                    created_at=datetime.now(),
-                    run_id=run_id
-                )
-                session.merge(media)
-            except Exception as e:
-                _logger.error(f"Error processing item {item.title}: {e}")
+            guids = {g.id.split('://')[0]: g.id.split('://')[1] for g in item.guids}
+            tags = ','.join(sorted([i.tag for i in item.genres]))
+            media = Media(
+                id=item.ratingKey,
+                name=item.title,
+                type=item.type,
+                tmdb=guids.get('tmdb'),
+                tvdb=guids.get('tvdb'),
+                imdb=guids.get('imdb'),
+                tags=tags,
+                created_at=datetime.now(),
+                run_id=run_id
+            )
+            session.merge(media)
 
 # remove any media in the db that was added from a different run
 def clean_old_runs(session, run_id):

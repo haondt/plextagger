@@ -16,6 +16,7 @@ logging.basicConfig(format=configuration.log_template, level=configuration.log_l
 
 _logger = logging.getLogger(__name__)
 
+_logger.info(f'Attempting to establish connection to plex server {configuration.plex_url}')
 plex = plexapi.server.PlexServer(configuration.plex_url, configuration.plex_token)
 
 def update_plex_cache():
@@ -106,11 +107,6 @@ if __name__ == "__main__":
     update_plex_cache()
     _logger.info(f"Plex cache update complete.")
 
-    _logger.info(f"Processing queue")
+    _logger.info(f"processing queue")
     process_cached_media()
-    _logger.info(f"Queue processing complete.")
-
-
-
-
-
+    _logger.info(f"queue processing complete.")
