@@ -46,6 +46,3 @@ class FailedMatch(Base):
     __table_args__ = (
         UniqueConstraint('plex_id', 'type', name='_plex_id_type_uc'),
     )
-
-    media: Mapped[Media] = relationship(passive_deletes=False)
-
