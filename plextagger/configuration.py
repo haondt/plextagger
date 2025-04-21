@@ -39,6 +39,7 @@ class Config:
         self.db_path = os.path.abspath(os.getenv('DB_PATH', '.')).rstrip('/')
 
         self.tmdb_api_key = os.environ['TMDB_API_KEY']
+        self.section_batch_size = os.getenv('SECTION_BATCH_SIZE', 50)
 
 
 configuration = Config()
