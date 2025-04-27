@@ -2,6 +2,8 @@
 
 Script to generate tags on plex media.
 
+![](./screenshot.png)
+
 ## Usage
 
 
@@ -51,4 +53,4 @@ Config is done through env vars.
 
 ## Details
 
-When using the docker image, the script will go through every movie/tv show section in your library. It will grab `SECTION_BATCH_SIZE` items from the section, that don't have the `PT__processed` genre. Then it will processe them and add all the relevant tags, prefixed with `PT_`, including the `processed` tag. Then it will wait `SCHEDULE_MINUTES` minutes before running again.
+When using the docker image, the script will go through every movie/tv show section in your library. It will grab `SECTION_BATCH_SIZE` items from the section, that don't have the `PT__processed` genre. Then it will process them and add all the relevant tags, prefixed with `PT_`, including the `_processed` tag. Then it will wait `SCHEDULE_MINUTES` minutes before running again.
