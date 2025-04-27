@@ -53,4 +53,6 @@ Config is done through env vars.
 
 ## Details
 
-When using the docker image, the script will go through every movie/tv show section in your library. It will grab `SECTION_BATCH_SIZE` items from the section, that don't have the `PT__processed` genre. Then it will process them and add all the relevant tags, prefixed with `PT_`, including the `_processed` tag. Then it will wait `SCHEDULE_MINUTES` minutes before running again.
+The script will go through every movie/tv show section in your library. It will grab `SECTION_BATCH_SIZE` items from the section, that don't have the `PT__processed` genre. Then it will process them and add all the relevant tags, prefixed with `PT_`, including the `_processed` tag.
+
+When using the docker image, it will wait `SCHEDULE_MINUTES` minutes and re-run the script in a loop.
